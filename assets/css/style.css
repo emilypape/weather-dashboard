@@ -1,0 +1,55 @@
+.headBar {
+    display: flex;
+    justify-content: center;
+    color: white;
+    background: linear-gradient(to bottom, #0066cc 0%, #ffff00 100%);;
+    font-size: 36px;
+    font-weight: 600;
+    padding: 30px;
+    width: 100%;
+}
+
+/* put weather containers in the correct spot on the page */
+.mainWeatherContainer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.weatherBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.forecastContainer {
+    display: flex;
+    flex-direction: column
+}
+
+.forecastBox {
+    display: flex;
+    flex-direction: row;
+}
+
+.recentSearches {
+    display: flex;
+}
+/* end page organization */
+
+/* search button styles */
+.searchbtn {
+    background-color: #0066cc;
+    border-radius: 5px;
+    width: 85%;
+    color: white;
+}
+/* end search btn styles */
+
+/* body styles */
+.cityWeatherBox {
+    outline: solid 2px #003366;
+}
+
+/* utility class */
+.hidden {
+    display: none;
+}
