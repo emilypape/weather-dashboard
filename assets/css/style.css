@@ -6,7 +6,6 @@
     font-size: 36px;
     font-weight: 600;
     padding: 30px;
-    width: 100%;
 }
 
 /* put weather containers in the correct spot on the page */
@@ -30,9 +29,7 @@
     flex-direction: row;
 }
 
-.recentSearches {
-    display: flex;
-}
+
 /* end page organization */
 
 /* search button styles */
@@ -41,6 +38,11 @@
     border-radius: 5px;
     width: 85%;
     color: white;
+    padding: 5px;
+}
+
+.searchBar {
+    margin: 0 0 5px 0;
 }
 /* end search btn styles */
 
@@ -49,6 +51,28 @@
     outline: solid 2px #003366;
 }
 
+/* search history */
+.searchInputBox {
+    padding: 0 15px;
+}
+
+.recentSearches {
+    display: flex;
+    flex-direction: column;
+    border-top: solid 2px #b7b7b7;
+    margin: 10px 0 0 0;
+    width: 85%;
+}
+
+.viewSearch {
+    color: black;
+    background-color: #B7B7B7;
+    width: 95%;
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px 0 0 0;
+    padding: 5px;
+}
 /* utility class */
 .hidden {
     display: none;
