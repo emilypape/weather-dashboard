@@ -11,7 +11,6 @@
 /* put weather containers in the correct spot on the page */
 .mainWeatherContainer {
     display: flex;
-    justify-content: space-between;
 }
 
 .weatherBox {
@@ -49,11 +48,12 @@
 /* body styles */
 .cityWeatherBox {
     outline: solid 2px #003366;
+    margin-top: 1em;
 }
 
 /* search history */
 .searchInputBox {
-    padding: 0 15px;
+    padding: 0 .5rem;
 }
 
 .recentSearches {
@@ -73,6 +73,8 @@
     margin: 10px 0 0 0;
     padding: 5px;
 }
+/* end search history */
+
 /* utility class */
 .hidden {
     display: none;

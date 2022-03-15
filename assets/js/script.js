@@ -2,6 +2,7 @@ var searchBtn = document.querySelector('#search-btn');
 var locationInput = document.querySelector('#city-search-input');
 var recentSearches = document.querySelector('#recent-searches');
 var dailyForecast = document.querySelector('#city-weather-box');
+var weeklyForecastBox = document.querySelector('#forecast-box');
 
 function saveSearchHistory(city) {
     var searchHistory = localStorage.getItem('cities');
@@ -16,25 +17,72 @@ function saveSearchHistory(city) {
     localStorage.setItem('cities', searchHistory);
 }
 
+var key = '3e0ffccaa80f03a52b4c7d59d7b97591';
 
-function fetchWeatherData(city) {
-    var key = '3e0ffccaa80f03a52b4c7d59d7b97591';
-    // grab initial api data
-    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${key}`
+function fetchAdditionWeatherData(lat, lon, city) {
+    var apiUrl = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=imperial&appid=${key}`
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
+                console.log(data);
                 currentConditions(data, city);
+                fiveDayConditions(data);
+            })
+        }
+    })
+}
+
+function fetchWeatherData(city) {
+    // grab initial api data
+    var apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=imperial&dt&appid=${key}`
+    fetch(apiUrl).then(function(response) {
+        if(response.ok) {
+            response.json().then(function(data) {
+                console.log(data);
+                var lat = data.coord.lat;
+                var lon = data.coord.lon;
+                fetchAdditionWeatherData(lat, lon, data.name);
             });
         };
     });
 };
 
-function currentConditions(data, city) {
-    var dailyForecastBox = document.createElement('div')
-    console.log(data);
+function currentConditions(data, cityName) {
+    // convert Unix time into date
+    var objectDate = data.current.dt
+    var dateMilliseconds = (objectDate * 1000);
+    var dateObject = new Date(dateMilliseconds);
+    var humanDateObject = dateObject.toLocaleString();
 
-    
+    // need to convert weather icon here***
+
+    // append city and date title
+    var dailyForecastBox = document.createElement('div')
+    dailyForecast.appendChild(dailyForecastBox);
+    dailyForecastBox.textContent = cityName + ' (' +humanDateObject + ')';
+
+    // append weather information for current city and date
+    var temp = document.createElement('div');
+    temp.textContent = 'Temperature: ' + data.current.temp + '°F'
+    dailyForecastBox.appendChild(temp);
+
+    var wind = document.createElement('div');
+    wind.textContent = 'Wind: ' + data.current.wind_speed + ' MPH';
+    dailyForecastBox.appendChild(wind);
+
+    var humidity = document.createElement('div');
+    humidity.textContent = 'Humidity: ' + data.current.humidity + '%';
+    dailyForecastBox.appendChild(humidity)
+
+    var uvIndex = document.createElement('div');
+    uvIndex.textContent = 'UV Index: ' + data.current.uvi 
+    dailyForecastBox.appendChild(uvIndex);
+    // end weather info append
+}
+
+function fiveDayConditions (data) {
+
+
 }
 
 function clickEvent() {
