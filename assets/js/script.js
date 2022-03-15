@@ -50,8 +50,8 @@ function fetchWeatherData(city) {
 function currentConditions(data, cityName) {
     // convert Unix time into date
     var objectDate = data.current.dt
-    var dateMilliseconds = (objectDate * 1000);
-    var dateObject = new Date(dateMilliseconds);
+    var date = (objectDate * 1000);
+    var dateObject = new Date(date);
     var humanDateObject = dateObject.toLocaleString();
 
     // need to convert weather icon here***
@@ -81,6 +81,30 @@ function currentConditions(data, cityName) {
 }
 
 function fiveDayConditions (data) {
+    var weeklyForecast = data.daily
+    var objectDateEl = data.current.dt
+
+    for (var i = 0; i <= 4; i++) {
+        var day = weeklyForecast[i]
+        var weatherDayBox = document.createElement('div')
+        weeklyForecastBox.appendChild(weatherDayBox);
+
+        var dateEl = document.createElement('div');
+        dateEl.textContent = new Date(objectDateEl * 1000).toDateString();
+        weatherDayBox.appendChild(dateEl);
+
+        var tempEl = document.createElement('div');
+        tempEl.textContent = 'Temperature: ' + data.current.temp + '°F'
+        weatherDayBox.appendChild(tempEl);
+
+        var windEl = document.createElement('div');
+        windEl.textContent = 'Wind: ' + data.current.wind_speed + ' MPH';
+        weatherDayBox.appendChild(windEl);
+
+        var humidityEl = document.createElement('div');
+        humidityEl.textContent = 'Humidity: ' + data.current.humidity + '%';
+        weatherDayBox.appendChild(humidityEl)
+    }
 
 
 }
