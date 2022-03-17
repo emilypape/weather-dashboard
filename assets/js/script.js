@@ -61,29 +61,35 @@ function currentConditions(data, cityName) {
 
     // need to convert weather icon here***
     var weatherIcon = document.createElement('img');
-    icon = data.current.weather.icon;
-    weatherIcon.textContent = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+    weatherIcon.classList.add('weatherIcon')
+    icon = data.current.weather[0].icon;
+    weatherIcon.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
     // append city and date title
     var dailyForecastBox = document.createElement('div')
     dailyForecastBox.classList.add('dailyForecastBox');
     dailyForecast.appendChild(dailyForecastBox);
-    dailyForecastBox.textContent = cityName + ' (' +humanDateObject + ')' + weatherIcon;
+    dailyForecastBox.textContent = cityName + ' (' +humanDateObject + ')';
+    dailyForecastBox.appendChild(weatherIcon);
 
     // append weather information for current city and date
     var temp = document.createElement('div');
+    temp.classList.add('dailyWeatherStyles')
     temp.textContent = 'Temperature: ' + data.current.temp + '°F'
     dailyForecastBox.appendChild(temp);
 
     var wind = document.createElement('div');
+    wind.classList.add('dailyWeatherStyles');
     wind.textContent = 'Wind: ' + data.current.wind_speed + ' MPH';
     dailyForecastBox.appendChild(wind);
 
     var humidity = document.createElement('div');
+    humidity.classList.add('dailyWeatherStyles');
     humidity.textContent = 'Humidity: ' + data.current.humidity + '%';
     dailyForecastBox.appendChild(humidity)
 
     var uvIndex = document.createElement('div');
+    uvIndex.classList.add('dailyWeatherStyles');
     uvIndex.textContent = 'UV Index: ' + data.current.uvi 
     dailyForecastBox.appendChild(uvIndex);
     // end weather info append
@@ -107,11 +113,19 @@ function fiveDayConditions (data) {
         dateEl.textContent = new Date(objectDateEl * 1000).toDateString();
         weatherDayBox.appendChild(dateEl);
 
+        var weatherIcons = document.createElement('img');
+        weatherIcons.classList.add('weatherIconWeekly')
+        icon = data.current.weather[0].icon;
+        weatherIcons.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
+        weatherDayBox.appendChild(weatherIcons);
+
         var tempEl = document.createElement('div');
+        tempEl.classList.add('weatherStyles');
         tempEl.textContent = 'Temperature: ' + day.temp.max + '°F'
         weatherDayBox.appendChild(tempEl);
 
         var windEl = document.createElement('div');
+        windEl.classList.add('weatherStyles');
         windEl.textContent = 'Wind: ' + day.wind_speed + ' MPH';
         weatherDayBox.appendChild(windEl);
 
@@ -124,7 +138,11 @@ function fiveDayConditions (data) {
 }
 
 function cityRecall () {
-    
+    city = this.textContent;
+
+    fetchWeatherData(city);
+    saveSearchHistory(city);
+
 }
 
 function clickEvent() {
@@ -135,8 +153,10 @@ function clickEvent() {
         
         var cityEl = document.createElement('button');
         cityEl.classList = 'viewSearch'
-        cityEl.id = '#city-el-recall'
+        cityEl.setAttribute('id', 'city-el');
         cityEl.textContent = city
+
+        cityEl.addEventListener('click', cityRecall);
 
         recentSearches.classList.remove('hidden');
         recentSearches.appendChild(cityEl);
