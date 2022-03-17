@@ -26,6 +26,7 @@
 .forecastBox {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }
 
 
@@ -74,6 +75,16 @@
     padding: 5px;
 }
 /* end search history */
+
+/* 5 day weather forecast styles */
+
+.weatherDayBox {
+    background-color: #013365;
+    color: white;
+    margin: 0 1em 0 0;
+    padding: 1em;
+    
+}
 
 /* utility class */
 .hidden {

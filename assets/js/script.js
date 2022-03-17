@@ -49,17 +49,26 @@ function fetchWeatherData(city) {
 
 function currentConditions(data, cityName) {
     // convert Unix time into date
+    var resets = $('.dailyForecastBox');
+    if(resets) {
+        resets.remove();
+    }
+
     var objectDate = data.current.dt
     var date = (objectDate * 1000);
     var dateObject = new Date(date);
     var humanDateObject = dateObject.toLocaleString();
 
     // need to convert weather icon here***
+    var weatherIcon = document.createElement('img');
+    icon = data.current.weather.icon;
+    weatherIcon.textContent = `http://openweathermap.org/img/wn/${icon}@2x.png`;
 
     // append city and date title
     var dailyForecastBox = document.createElement('div')
+    dailyForecastBox.classList.add('dailyForecastBox');
     dailyForecast.appendChild(dailyForecastBox);
-    dailyForecastBox.textContent = cityName + ' (' +humanDateObject + ')';
+    dailyForecastBox.textContent = cityName + ' (' +humanDateObject + ')' + weatherIcon;
 
     // append weather information for current city and date
     var temp = document.createElement('div');
@@ -82,31 +91,40 @@ function currentConditions(data, cityName) {
 
 function fiveDayConditions (data) {
     var weeklyForecast = data.daily
-    var objectDateEl = data.current.dt
+    var reset = $('.weatherDayBox');
+    if(reset) {
+        reset.remove();
+    }
 
     for (var i = 0; i <= 4; i++) {
         var day = weeklyForecast[i]
         var weatherDayBox = document.createElement('div')
+        weatherDayBox.classList.add('weatherDayBox');
         weeklyForecastBox.appendChild(weatherDayBox);
 
+        var objectDateEl = day.dt
         var dateEl = document.createElement('div');
         dateEl.textContent = new Date(objectDateEl * 1000).toDateString();
         weatherDayBox.appendChild(dateEl);
 
         var tempEl = document.createElement('div');
-        tempEl.textContent = 'Temperature: ' + data.current.temp + '°F'
+        tempEl.textContent = 'Temperature: ' + day.temp.max + '°F'
         weatherDayBox.appendChild(tempEl);
 
         var windEl = document.createElement('div');
-        windEl.textContent = 'Wind: ' + data.current.wind_speed + ' MPH';
+        windEl.textContent = 'Wind: ' + day.wind_speed + ' MPH';
         weatherDayBox.appendChild(windEl);
 
         var humidityEl = document.createElement('div');
-        humidityEl.textContent = 'Humidity: ' + data.current.humidity + '%';
+        humidityEl.textContent = 'Humidity: ' + day.humidity + '%';
         weatherDayBox.appendChild(humidityEl)
     }
 
 
+}
+
+function cityRecall () {
+    
 }
 
 function clickEvent() {
@@ -115,7 +133,7 @@ function clickEvent() {
         fetchWeatherData(city);
         saveSearchHistory(city);
         
-        var cityEl = document.createElement('div');
+        var cityEl = document.createElement('button');
         cityEl.classList = 'viewSearch'
         cityEl.id = '#city-el-recall'
         cityEl.textContent = city
@@ -127,4 +145,5 @@ function clickEvent() {
 
 
 searchBtn.addEventListener('click', clickEvent);
+
 
