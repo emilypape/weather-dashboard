@@ -24,7 +24,6 @@ function fetchAdditionWeatherData(lat, lon, city) {
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
-                console.log(data);
                 currentConditions(data, city);
                 fiveDayConditions(data);
             })
@@ -38,7 +37,6 @@ function fetchWeatherData(city) {
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
-                console.log(data);
                 var lat = data.coord.lat;
                 var lon = data.coord.lon;
                 fetchAdditionWeatherData(lat, lon, data.name);
@@ -90,8 +88,28 @@ function currentConditions(data, cityName) {
 
     var uvIndex = document.createElement('div');
     uvIndex.classList.add('dailyWeatherStyles');
+    uvIndex.setAttribute('id', 'uvi-style');
     uvIndex.textContent = 'UV Index: ' + data.current.uvi 
     dailyForecastBox.appendChild(uvIndex);
+
+    if(data.current.uvi <= 2) {
+        uvIndex.style.backgroundColor = 'green';
+        uvIndex.style.width = '15%';
+    } else if (data.current.uvi > 2 && data.current.uvi <= 5) {
+        uvIndex.style.backgroundColor = 'yellow';
+        uvIndex.style.width = '15%';
+    } else if (data.current.uvi > 5 && data.current.uvi <= 7) {
+        uvIndex.style.backgroundColor = 'orange';
+        uvIndex.style.width = '15%';
+    } else if (data.current.uvi > 7 && data.current.uvi <= 10) {
+        uvIndex.style.backgroundColor = 'red';
+        uvIndex.style.width = '15%';
+    } else if (data.current.uvi > 10) {
+        uvIndex.style.backgroundColor = 'purple';
+        uvIndex.style.width = '15%';
+    } else {
+        return;
+    }
     // end weather info append
 }
 
