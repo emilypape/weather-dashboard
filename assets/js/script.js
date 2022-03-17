@@ -1,6 +1,8 @@
 var searchBtn = document.querySelector('#search-btn');
 var locationInput = document.querySelector('#city-search-input');
 var recentSearches = document.querySelector('#recent-searches');
+var dailyWeatherBox = document.querySelector('#weather-box');
+var fiveDayWeatherBox = document.querySelector('#forecast-container');
 var dailyForecast = document.querySelector('#city-weather-box');
 var weeklyForecastBox = document.querySelector('#forecast-box');
 
@@ -164,6 +166,8 @@ function cityRecall () {
 }
 
 function clickEvent() {
+        dailyWeatherBox.classList.remove('hidden');
+        fiveDayWeatherBox.classList.remove('hidden');
         // grab user input and set equal to city
         var city = locationInput.value;
         fetchWeatherData(city);
