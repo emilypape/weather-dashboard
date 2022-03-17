@@ -26,6 +26,7 @@ function fetchAdditionWeatherData(lat, lon, city) {
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
+                console.log(data);
                 currentConditions(data, city);
                 fiveDayConditions(data);
             })
@@ -39,6 +40,7 @@ function fetchWeatherData(city) {
     fetch(apiUrl).then(function(response) {
         if(response.ok) {
             response.json().then(function(data) {
+                console.log(data);
                 var lat = data.coord.lat;
                 var lon = data.coord.lon;
                 fetchAdditionWeatherData(lat, lon, data.name);
@@ -135,7 +137,7 @@ function fiveDayConditions (data) {
 
         var weatherIcons = document.createElement('img');
         weatherIcons.classList.add('weatherIconWeekly')
-        icon = data.current.weather[0].icon;
+        icon = day.weather[0].icon;
         weatherIcons.src = `http://openweathermap.org/img/wn/${icon}@2x.png`;
         weatherDayBox.appendChild(weatherIcons);
 
